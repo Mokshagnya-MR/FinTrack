@@ -1,6 +1,0 @@
-print('Hi',24,0.7,sep='-')
-print([1,2,3])
-print({'hi':'hello'})
-a = int(input('Enter num1: '))   
-b = int(input('Enter num2: '))   
-print(a+b)
