@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FinTrack – Personal Finance Tracker</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <meta name="description" content="FinTrack – manage your balance, savings goals, and monthly budget in one place." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --bg: #0a0d14;
@@ -34,6 +43,7 @@
       text-align: center;
       margin-bottom: 36px;
     }
+
     header h1 {
       font-size: 2.2rem;
       font-weight: 800;
@@ -42,10 +52,18 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    header p { color: var(--muted); font-size: .95rem; margin-top: 6px; }
+
+    header p {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-top: 6px;
+    }
 
     /* ── Layout ── */
-    .container { max-width: 960px; margin: 0 auto; }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
 
     /* ── Balance Card ── */
     .balance-card {
@@ -58,15 +76,25 @@
       position: relative;
       overflow: hidden;
     }
+
     .balance-card::before {
       content: '';
       position: absolute;
-      top: -60px; right: -60px;
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(108,99,255,.25) 0%, transparent 70%);
+      top: -60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(108, 99, 255, .25) 0%, transparent 70%);
       pointer-events: none;
     }
-    .balance-label { font-size: .85rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+
+    .balance-label {
+      font-size: .85rem;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
     .balance-amount {
       font-size: 3.2rem;
       font-weight: 800;
@@ -74,16 +102,38 @@
       margin: 8px 0 4px;
       transition: transform .3s;
     }
-    .balance-amount.pulse { animation: pulse .4s ease; }
+
+    .balance-amount.pulse {
+      animation: pulse .4s ease;
+    }
+
     @keyframes pulse {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.04); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.04);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     /* ── Action Cards ── */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
-    @media(max-width:600px){ .grid-2 { grid-template-columns: 1fr; } }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    @media(max-width:600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .card {
       background: var(--card);
@@ -91,6 +141,7 @@
       border-radius: var(--radius);
       padding: 24px;
     }
+
     .card h2 {
       font-size: 1rem;
       font-weight: 700;
@@ -99,11 +150,21 @@
       align-items: center;
       gap: 8px;
     }
-    .card h2 .icon { font-size: 1.2rem; }
+
+    .card h2 .icon {
+      font-size: 1.2rem;
+    }
 
     /* ── Inputs ── */
-    .input-group { display: flex; flex-direction: column; gap: 10px; }
-    input[type="number"], input[type="text"] {
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="password"] {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -115,7 +176,10 @@
       transition: border-color .2s;
       outline: none;
     }
-    input:focus { border-color: var(--accent); }
+
+    input:focus {
+      border-color: var(--accent);
+    }
 
     /* ── Buttons ── */
     .btn {
@@ -129,17 +193,42 @@
       transition: opacity .2s, transform .15s;
       width: 100%;
     }
-    .btn:hover { opacity: .88; transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
-    .btn-deposit  { background: linear-gradient(135deg, #00d4aa, #00a88a); color: #000; }
-    .btn-withdraw { background: linear-gradient(135deg, #ff5f7e, #d43a5a); color: #fff; }
-    .btn-accent   { background: linear-gradient(135deg, #6c63ff, #4f46e5); color: #fff; }
-    .btn-sm       { padding: 9px 14px; font-size: .82rem; width: auto; }
+
+    .btn:hover {
+      opacity: .88;
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-deposit {
+      background: linear-gradient(135deg, #00d4aa, #00a88a);
+      color: #000;
+    }
+
+    .btn-withdraw {
+      background: linear-gradient(135deg, #ff5f7e, #d43a5a);
+      color: #fff;
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #6c63ff, #4f46e5);
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: 9px 14px;
+      font-size: .82rem;
+      width: auto;
+    }
 
     /* ── Toast ── */
     #toast {
       position: fixed;
-      bottom: 28px; left: 50%;
+      bottom: 28px;
+      left: 50%;
       transform: translateX(-50%) translateY(60px);
       background: var(--card);
       border: 1px solid var(--border);
@@ -147,26 +236,139 @@
       padding: 12px 24px;
       font-size: .9rem;
       font-weight: 500;
-      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .35s;
       opacity: 0;
       z-index: 999;
       white-space: nowrap;
     }
-    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    #toast.success { border-color: var(--accent2); color: var(--accent2); }
-    #toast.error   { border-color: var(--danger);  color: var(--danger); }
-    #toast.info    { border-color: var(--accent);  color: var(--accent); }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    #toast.success {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    #toast.error {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    #toast.info {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Budget Section ── */
+    .budget-card {
+      margin-bottom: 28px;
+    }
+
+    .budget-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .budget-meta strong {
+      color: var(--text);
+    }
+
+    .budget-bar-wrap {
+      background: var(--border);
+      border-radius: 99px;
+      height: 10px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .budget-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width .5s ease, background .3s;
+    }
+
+    .budget-bar-fill.safe {
+      background: linear-gradient(90deg, #6c63ff, #00d4aa);
+    }
+
+    .budget-bar-fill.warn {
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+    }
+
+    .budget-bar-fill.danger {
+      background: #ef4444;
+    }
+
+    .budget-set-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .budget-set-row input {
+      flex: 1;
+    }
+
+    .budget-badge {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: rgba(108, 99, 255, .15);
+      color: var(--accent);
+      margin-top: 6px;
+    }
 
     /* ── Goals Section ── */
-    .goals-card { margin-bottom: 28px; }
-    .goals-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
-    .goals-header h2 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .goals-card {
+      margin-bottom: 28px;
+    }
 
-    .new-goal-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
-    .new-goal-row input { flex: 1; min-width: 120px; }
+    .goals-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .goals-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .new-goal-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .new-goal-row input {
+      flex: 1;
+      min-width: 120px;
+    }
 
     /* ── Goal Items ── */
-    #goals-list { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+    #goals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
     .goal-item {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -174,11 +376,32 @@
       padding: 16px 18px;
       transition: border-color .2s;
     }
-    .goal-item:hover { border-color: var(--accent); }
-    .goal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .goal-name { font-weight: 600; font-size: .95rem; }
-    .goal-amounts { font-size: .82rem; color: var(--muted); }
-    .goal-amounts span { color: var(--accent2); font-weight: 600; }
+
+    .goal-item:hover {
+      border-color: var(--accent);
+    }
+
+    .goal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .goal-name {
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .goal-amounts {
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    .goal-amounts span {
+      color: var(--accent2);
+      font-weight: 600;
+    }
 
     .progress-bar {
       background: var(--border);
@@ -187,6 +410,7 @@
       overflow: hidden;
       margin-bottom: 12px;
     }
+
     .progress-fill {
       background: linear-gradient(90deg, #6c63ff, #00d4aa);
       height: 100%;
@@ -194,17 +418,188 @@
       transition: width .5s ease;
     }
 
-    .goal-add-row { display: flex; gap: 8px; align-items: center; }
-    .goal-add-row input { flex: 1; }
+    .goal-add-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
 
-    .empty-state { text-align: center; color: var(--muted); padding: 32px 0; font-size: .9rem; }
+    .goal-add-row input {
+      flex: 1;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px 0;
+      font-size: .9rem;
+    }
+
+    /* ── Calendar ── */
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .cal-nav-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .cal-nav-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: .9rem;
+      padding: 5px 12px;
+      transition: border-color .2s;
+    }
+
+    .cal-nav-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .cal-weekday {
+      text-align: center;
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 4px 0;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: .78rem;
+      font-weight: 500;
+      cursor: default;
+      position: relative;
+      transition: transform .15s, box-shadow .15s;
+      background: var(--surface);
+      border: 1px solid transparent;
+    }
+
+    .cal-day.other-month {
+      opacity: .25;
+    }
+
+    .cal-day.today {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(108, 99, 255, .3);
+      font-weight: 700;
+    }
+
+    .cal-day .day-num {
+      line-height: 1;
+    }
+
+    .cal-day .day-spend {
+      font-size: .62rem;
+      font-weight: 600;
+      margin-top: 3px;
+      opacity: .85;
+      white-space: nowrap;
+    }
+
+    /* Heat colours */
+    .cal-day.spend-low {
+      background: rgba(0, 212, 170, .12);
+      border-color: rgba(0, 212, 170, .3);
+    }
+
+    .cal-day.spend-mid {
+      background: rgba(245, 158, 11, .15);
+      border-color: rgba(245, 158, 11, .4);
+    }
+
+    .cal-day.spend-high {
+      background: rgba(255, 95, 126, .18);
+      border-color: rgba(255, 95, 126, .45);
+    }
+
+    .cal-day.spend-low .day-spend {
+      color: var(--accent2);
+    }
+
+    .cal-day.spend-mid .day-spend {
+      color: #f59e0b;
+    }
+
+    .cal-day.spend-high .day-spend {
+      color: var(--danger);
+    }
+
+    .cal-day:hover:not(.other-month) {
+      transform: scale(1.07);
+      z-index: 1;
+    }
+
+    /* Today summary strip */
+    .today-summary {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: .85rem;
+    }
+
+    .today-summary span {
+      color: var(--muted);
+    }
+
+    .today-summary strong {
+      color: var(--text);
+    }
 
     /* ── History ── */
     .history-card {}
-    #history-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; margin-top: 16px; }
-    #history-list::-webkit-scrollbar { width: 6px; }
-    #history-list::-webkit-scrollbar-track { background: transparent; }
-    #history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    #history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 320px;
+      overflow-y: auto;
+      margin-top: 16px;
+    }
+
+    #history-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #history-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #history-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px;
+    }
 
     .hist-item {
       display: flex;
@@ -216,214 +611,622 @@
       font-size: .88rem;
       animation: fadeIn .3s ease;
     }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
-    .hist-desc { color: var(--muted); }
-    .hist-amt.pos { color: var(--accent2); font-weight: 600; }
-    .hist-amt.neg { color: var(--danger); font-weight: 600; }
-    .hist-amt.goal { color: var(--accent); font-weight: 600; }
-    .hist-time { color: var(--muted); font-size: .75rem; white-space: nowrap; margin-left: 10px; }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hist-desc {
+      color: var(--muted);
+    }
+
+    .hist-amt.pos {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .hist-amt.neg {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .hist-amt.goal {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hist-time {
+      color: var(--muted);
+      font-size: .75rem;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+
+    .hist-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .hist-date {
+      color: var(--muted);
+      font-size: .75rem;
+      white-space: nowrap;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: var(--border);
+    }
+
+    /* ── Auth Screen ── */
+    #auth-screen {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .auth-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 40px 36px; width: 100%; max-width: 420px;
+    }
+    .auth-box h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px;
+      background: linear-gradient(135deg,#6c63ff,#00d4aa);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .auth-box p { color: var(--muted); font-size: .88rem; margin-bottom: 24px; }
+    .auth-tabs { display: flex; gap: 0; margin-bottom: 24px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .auth-tab { flex: 1; padding: 10px; background: none; border: none; color: var(--muted);
+      font-family: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; transition: background .2s, color .2s; }
+    .auth-tab.active { background: var(--accent); color: #fff; }
+    .auth-fields { display: flex; flex-direction: column; gap: 12px; }
+    #auth-error { color: var(--danger); font-size: .82rem; min-height: 18px; }
+    /* ── User Bar ── */
+    .user-bar { display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+      margin-bottom: 16px; font-size: .85rem; color: var(--muted); }
+    .user-bar strong { color: var(--text); }
+    .btn-logout { background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--muted); font-family: inherit; font-size: .82rem;
+      padding: 6px 14px; cursor: pointer; transition: border-color .2s; }
+    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
   </style>
 </head>
+
 <body>
 
-<div class="container">
-  <header>
-    <h1>💰 FinTrack</h1>
-    <p>Personal Finance Tracker – manage balance &amp; savings goals</p>
-  </header>
-
-  <!-- Balance -->
-  <div class="balance-card">
-    <div class="balance-label">Current Balance</div>
-    <div class="balance-amount" id="balance-display">₹0.00</div>
-  </div>
-
-  <!-- Deposit / Withdraw -->
-  <div class="grid-2">
-    <div class="card">
-      <h2><span class="icon">⬆️</span> Deposit</h2>
-      <div class="input-group">
-        <input type="number" id="deposit-amt" placeholder="Enter amount" min="1"/>
-        <button class="btn btn-deposit" id="btn-deposit" onclick="handleDeposit()">Deposit</button>
+  <!-- Auth Screen -->
+  <div id="auth-screen">
+    <div class="auth-box">
+      <h2>💰 FinTrack</h2>
+      <p>Sign in or create an account to continue</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
       </div>
-    </div>
-    <div class="card">
-      <h2><span class="icon">⬇️</span> Withdraw</h2>
-      <div class="input-group">
-        <input type="number" id="withdraw-amt" placeholder="Enter amount" min="1"/>
-        <button class="btn btn-withdraw" id="btn-withdraw" onclick="handleWithdraw()">Withdraw</button>
+      <div class="auth-fields">
+        <input type="text" id="auth-username" placeholder="Username" />
+        <input type="password" id="auth-password" placeholder="Password" />
+        <input type="number" id="auth-balance" placeholder="Initial balance (register only)" min="0" style="display:none" />
+        <div id="auth-error"></div>
+        <button class="btn btn-accent" id="auth-submit" onclick="handleAuth()">Login</button>
       </div>
     </div>
   </div>
 
-  <!-- Goals -->
-  <div class="card goals-card">
-    <div class="goals-header">
-      <h2><span class="icon">🎯</span> Savings Goals</h2>
+  <div class="container" id="app" style="display:none">
+    <div class="user-bar">
+      <span>Logged in as <strong id="user-label"></strong></span>
+      <button class="btn-logout" onclick="handleLogout()">Logout</button>
     </div>
-    <div class="new-goal-row">
-      <input type="text"   id="goal-name" placeholder="Goal name (e.g. Vacation)"/>
-      <input type="number" id="goal-amt"  placeholder="Target amount" min="1"/>
-      <button class="btn btn-accent btn-sm" onclick="handleCreateGoal()">+ Add Goal</button>
+    <header>
+      <h1>💰 FinTrack</h1>
+      <p>Personal Finance Tracker – manage balance &amp; savings goals</p>
+    </header>
+
+    <!-- Balance -->
+    <div class="balance-card">
+      <div class="balance-label">Current Balance</div>
+      <div class="balance-amount" id="balance-display">₹0.00</div>
+      <div id="budget-badge" class="budget-badge" style="display:none">No budget set</div>
     </div>
-    <div id="goals-list">
-      <div class="empty-state" id="empty-msg">No savings goals yet. Create one above! 🚀</div>
+
+    <!-- Deposit / Withdraw -->
+    <div class="grid-2">
+      <div class="card">
+        <h2><span class="icon">⬆️</span> Deposit</h2>
+        <div class="input-group">
+          <input type="number" id="deposit-amt" placeholder="Enter amount" min="1" />
+          <button class="btn btn-deposit" id="btn-deposit" onclick="handleDeposit()">Deposit</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">⬇️</span> Withdraw</h2>
+        <div class="input-group">
+          <input type="number" id="withdraw-amt" placeholder="Enter amount" min="1" />
+          <input type="text" id="withdraw-reason" placeholder="Reason for withdrawal (required)" />
+          <button class="btn btn-withdraw" id="btn-withdraw" onclick="handleWithdraw()">Withdraw</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Budget -->
+    <div class="card budget-card">
+      <h2><span class="icon">📊</span> Monthly Budget</h2>
+      <div class="budget-meta">
+        <span>Spent this month: <strong id="budget-spent">₹0.00</strong></span>
+        <span>Limit: <strong id="budget-limit-display">Not set</strong></span>
+      </div>
+      <div class="budget-bar-wrap" id="budget-bar-wrap" style="display:none">
+        <div class="budget-bar-fill safe" id="budget-bar-fill" style="width:0%"></div>
+      </div>
+      <div class="budget-set-row">
+        <input type="number" id="budget-limit-input" placeholder="Set monthly limit" min="1" />
+        <button class="btn btn-accent btn-sm" onclick="handleSetBudget()">Set Limit</button>
+        <button class="btn btn-sm" id="btn-clear-budget" style="background:#1f2740;color:var(--muted);width:auto;"
+          onclick="handleClearBudget()">Clear</button>
+      </div>
+    </div>
+
+    <!-- Spending Calendar -->
+    <div class="card" style="margin-bottom:28px">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" id="cal-prev" onclick="calPrev()">&#8592;</button>
+        <span class="cal-nav-title" id="cal-title"></span>
+        <button class="cal-nav-btn" id="cal-next" onclick="calNext()">&#8594;</button>
+      </div>
+      <div class="cal-weekdays">
+        <div class="cal-weekday">Sun</div>
+        <div class="cal-weekday">Mon</div>
+        <div class="cal-weekday">Tue</div>
+        <div class="cal-weekday">Wed</div>
+        <div class="cal-weekday">Thu</div>
+        <div class="cal-weekday">Fri</div>
+        <div class="cal-weekday">Sat</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="today-summary">
+        <span>📅 Today's spending: <strong id="cal-today-spend">₹0.00</strong></span>
+        <span>💰 Balance: <strong id="cal-today-balance">₹0.00</strong></span>
+      </div>
+    </div>
+
+    <!-- Goals -->
+    <div class="card goals-card">
+      <div class="goals-header">
+        <h2><span class="icon">🎯</span> Savings Goals</h2>
+      </div>
+      <div class="new-goal-row">
+        <input type="text" id="goal-name" placeholder="Goal name (e.g. Vacation)" />
+        <input type="number" id="goal-amt" placeholder="Target amount" min="1" />
+        <button class="btn btn-accent btn-sm" onclick="handleCreateGoal()">+ Add Goal</button>
+      </div>
+      <div id="goals-list">
+        <div class="empty-state" id="empty-msg">No savings goals yet. Create one above! 🚀</div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card history-card">
+      <h2><span class="icon">📋</span> Transaction History</h2>
+      <div id="history-list">
+        <div class="empty-state">No transactions yet.</div>
+      </div>
     </div>
   </div>
-
-  <!-- History -->
-  <div class="card history-card">
-    <h2><span class="icon">📋</span> Transaction History</h2>
-    <div id="history-list">
-      <div class="empty-state">No transactions yet.</div>
-    </div>
   </div>
-</div>
 
-<div id="toast"></div>
+  <div id="toast"></div>
 
-<script>
-  // ── State (mirrors track.py account class) ──────────────────────────────
-  let balance = 0;
-  const goals = [];     // [{ name, target, saved }]
-  const history = [];
+  <script>
+    // ── Multi-user store (mirrors track.py users dict) ───────────────────────
+    const users = {}; // { username: { password: hash, state: {...} } }
+    let currentUser = null;
 
-  // ── Helpers ─────────────────────────────────────────────────────────────
-  const fmt = n => '₹' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const now  = () => new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-
-  function showToast(msg, type = 'info') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'show ' + type;
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => { t.className = ''; }, 3000);
-  }
-
-  function renderBalance() {
-    const el = document.getElementById('balance-display');
-    el.textContent = fmt(balance);
-    el.classList.remove('pulse');
-    void el.offsetWidth;
-    el.classList.add('pulse');
-  }
-
-  // ── Account Logic (ported from track.py) ────────────────────────────────
-  function deposit(amt) {
-    if (amt > 0) {
-      balance += amt;
-      return { ok: true, msg: 'Deposit successful' };
+    async function sha256(msg) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
-    return { ok: false, msg: 'Invalid amount' };
-  }
 
-  function withdraw(amt) {
-    if (amt <= balance && amt > 0) {
+    function freshState(initialBal) {
+      return {
+        balance: initialBal,
+        goals: [],
+        history: [],
+        monthlyLimit: null,
+        spentThisMonth: 0,
+        budgetMonth: new Date().getMonth(),
+        dailySpending: {},
+        calYear: new Date().getFullYear(),
+        calMonth: new Date().getMonth()
+      };
+    }
+
+    // ── Auth UI helpers ──────────────────────────────────────────────────────
+    let authMode = 'login';
+    function switchTab(mode) {
+      authMode = mode;
+      document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+      document.getElementById('tab-register').classList.toggle('active', mode === 'register');
+      document.getElementById('auth-balance').style.display = mode === 'register' ? '' : 'none';
+      document.getElementById('auth-submit').textContent = mode === 'login' ? 'Login' : 'Create Account';
+      document.getElementById('auth-error').textContent = '';
+    }
+
+    async function handleAuth() {
+      const username = document.getElementById('auth-username').value.trim();
+      const password = document.getElementById('auth-password').value;
+      const errEl = document.getElementById('auth-error');
+      if (!username || !password) { errEl.textContent = 'Username and password required'; return; }
+      const hash = await sha256(password);
+      if (authMode === 'register') {
+        if (users[username]) { errEl.textContent = 'User already registered'; return; }
+        const bal = parseFloat(document.getElementById('auth-balance').value) || 0;
+        users[username] = { password: hash, state: freshState(bal) };
+        errEl.style.color = 'var(--accent2)';
+        errEl.textContent = 'Account created! You can now login.';
+        switchTab('login');
+      } else {
+        if (!users[username]) { errEl.style.color='var(--danger)'; errEl.textContent = 'Username not found'; return; }
+        if (users[username].password !== hash) { errEl.style.color='var(--danger)'; errEl.textContent = 'Incorrect password'; return; }
+        currentUser = username;
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app').style.display = '';
+        document.getElementById('user-label').textContent = username;
+        loadUserState();
+      }
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
+      document.getElementById('auth-username').value = '';
+      document.getElementById('auth-password').value = '';
+      document.getElementById('auth-error').textContent = '';
+    }
+
+    function S() { return users[currentUser].state; }
+
+    function loadUserState() {
+      renderBalance(); renderBudget(); renderGoals(); renderHistory(); renderCalendar();
+    }
+
+    // ── State accessors (now delegate to per-user state) ─────────────────────
+    function getBalance()       { return S().balance; }
+    function setBalance(v)      { S().balance = v; }
+    function getGoals()         { return S().goals; }
+    function getHistory()       { return S().history; }
+    function getMonthlyLimit()  { return S().monthlyLimit; }
+    function setMonthlyLimit(v) { S().monthlyLimit = v; }
+    function getSpent()         { return S().spentThisMonth; }
+    function setSpent(v)        { S().spentThisMonth = v; }
+    function getBudgetMonth()   { return S().budgetMonth; }
+    function setBudgetMonth(v)  { S().budgetMonth = v; }
+    function getDailySpending() { return S().dailySpending; }
+
+    // Legacy shim so existing code keeps working
+    Object.defineProperties(window, {
+      balance:        { get: getBalance,       set: setBalance,       configurable:true },
+      goals:          { get: getGoals,                                configurable:true },
+      history:        { get: getHistory,                              configurable:true },
+      monthlyLimit:   { get: getMonthlyLimit,  set: setMonthlyLimit,  configurable:true },
+      spentThisMonth: { get: getSpent,         set: setSpent,         configurable:true },
+      budgetMonth:    { get: getBudgetMonth,   set: setBudgetMonth,   configurable:true },
+      dailySpending:  { get: getDailySpending,                        configurable:true },
+      calYear:        { get: () => S().calYear,  set: v => S().calYear = v,  configurable:true },
+      calMonth:       { get: () => S().calMonth, set: v => S().calMonth = v, configurable:true },
+    });
+
+    // ── Dummy state for when no user logged in ───────────────────────────────
+    // (prevents errors before login)
+    const _dummy = freshState(0);
+    const _dummyUser = '__dummy__';
+    users[_dummyUser] = { password: '', state: _dummy };
+    currentUser = _dummyUser;
+
+    // ── Helpers ─────────────────────────────────────────────────────────────
+    const fmt = n => '₹' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const now = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    function showToast(msg, type = 'info') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'show ' + type;
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => { t.className = ''; }, 3500);
+    }
+
+    function renderBalance() {
+      const el = document.getElementById('balance-display');
+      el.textContent = fmt(balance);
+      el.classList.remove('pulse');
+      void el.offsetWidth;
+      el.classList.add('pulse');
+    }
+
+    // ── Budget Month Auto-Reset (mirrors budget_month_reset in track.py) ─────
+    function budgetMonthReset() {
+      const currentMonth = new Date().getMonth();
+      if (currentMonth !== budgetMonth) {
+        spentThisMonth = 0;
+        budgetMonth = currentMonth;
+        showToast('New month — budget spending reset!', 'info');
+      }
+    }
+
+    function renderBudget() {
+      document.getElementById('budget-spent').textContent = fmt(spentThisMonth);
+      const badge = document.getElementById('budget-badge');
+      const barWrap = document.getElementById('budget-bar-wrap');
+      const bar = document.getElementById('budget-bar-fill');
+      const limitDisplay = document.getElementById('budget-limit-display');
+
+      if (monthlyLimit === null) {
+        limitDisplay.textContent = 'Not set';
+        barWrap.style.display = 'none';
+        badge.style.display = 'none';
+        return;
+      }
+
+      limitDisplay.textContent = fmt(monthlyLimit);
+      const pct = Math.min(100, (spentThisMonth / monthlyLimit) * 100);
+      barWrap.style.display = '';
+      bar.style.width = pct + '%';
+
+      // Colour the bar based on usage
+      bar.className = 'budget-bar-fill ' + (pct >= 100 ? 'danger' : pct >= 80 ? 'warn' : 'safe');
+
+      // Update the balance card badge
+      const remaining = monthlyLimit - spentThisMonth;
+      badge.style.display = '';
+      badge.textContent = remaining > 0
+        ? `Budget: ${fmt(remaining)} remaining this month`
+        : '⚠️ Monthly budget exhausted';
+      badge.style.color = pct >= 100 ? 'var(--danger)' : pct >= 80 ? '#f59e0b' : 'var(--accent)';
+    }
+
+    // ── Account Logic (ported from track.py) ────────────────────────────────
+    function deposit(amt) {
+      if (amt > 0) {
+        balance += amt;
+        return { ok: true, msg: 'Deposit successful' };
+      }
+      return { ok: false, msg: 'Invalid amount' };
+    }
+
+    function withdraw(amt, reason) {
+      if (amt <= 0) return { ok: false, msg: 'Invalid amount' };
+      if (amt > balance) return { ok: false, msg: 'Insufficient balance' };
+      if (!reason || !reason.trim()) return { ok: false, msg: 'Please enter a reason for withdrawal' };
+
+      if (monthlyLimit !== null) {
+        budgetMonthReset();
+        if (amt + spentThisMonth > monthlyLimit) {
+          return { ok: false, msg: 'Amount exceeds your monthly budget limit' };
+        }
+        if (amt + spentThisMonth > monthlyLimit * 0.8) {
+          // Warn but allow — matches track.py behaviour
+          showToast('⚠️ Warning: this will use more than 80% of your monthly budget!', 'error');
+        }
+      }
+
+      // Log to daily spending (mirrors track.py withdraw daily_spending logic)
+      const today = todayKey();
+      dailySpending[today] = (dailySpending[today] || 0) + amt;
+
       balance -= amt;
-      return { ok: true, msg: 'Withdraw successful' };
+      spentThisMonth += amt;
+      renderBudget();
+      renderCalendar();
+      return { ok: true, msg: `Withdrawal successful — ${reason.trim()}` };
     }
-    return { ok: false, msg: amt <= 0 ? 'Invalid amount' : 'Insufficient balance' };
-  }
 
-  function createGoal(name, target) {
-    if (!name.trim()) return { ok: false, msg: 'Goal name cannot be empty' };
-    if (target <= 0)   return { ok: false, msg: 'Target amount must be positive' };
-    if (goals.find(g => g.name === name)) return { ok: false, msg: 'Goal already exists' };
-    goals.push({ name: name.trim(), target, saved: 0 });
-    return { ok: true, msg: `Goal "${name}" created!` };
-  }
-
-  function addToGoal(goalName, amt) {
-    const g = goals.find(g => g.name === goalName);
-    if (!g) return { ok: false, msg: 'Goal not found' };
-    if (amt <= 0) return { ok: false, msg: 'Invalid amount' };
-    const remaining = g.target - g.saved;
-    if (amt > remaining) return { ok: false, msg: `Only ${fmt(remaining)} remaining for this goal` };
-    if (balance < amt) return { ok: false, msg: 'Insufficient balance' };
-    balance -= amt;
-    g.saved += amt;
-    if (g.saved >= g.target) {
-      goals.splice(goals.indexOf(g), 1);
-      return { ok: true, complete: true, msg: `🎉 Goal "${goalName}" complete!` };
+    function createGoal(name, target) {
+      if (!name.trim()) return { ok: false, msg: 'Goal name cannot be empty' };
+      if (target <= 0) return { ok: false, msg: 'Target amount must be positive' };
+      if (goals.find(g => g.name === name)) return { ok: false, msg: 'Goal already exists' };
+      goals.push({ name: name.trim(), target, saved: 0 });
+      return { ok: true, msg: `Goal "${name}" created!` };
     }
-    return { ok: true, msg: `Added ${fmt(amt)} to "${goalName}"` };
-  }
 
-  // ── Handlers ─────────────────────────────────────────────────────────────
-  function handleDeposit() {
-    const amt = parseFloat(document.getElementById('deposit-amt').value);
-    const res = deposit(amt);
-    if (res.ok) {
-      addHistory('Deposit', amt, 'pos');
-      document.getElementById('deposit-amt').value = '';
-      renderBalance();
-      showToast(res.msg, 'success');
-    } else {
-      showToast(res.msg, 'error');
+    function addToGoal(goalName, amt) {
+      const g = goals.find(g => g.name === goalName);
+      if (!g) return { ok: false, msg: 'Goal not found' };
+      if (amt <= 0) return { ok: false, msg: 'Invalid amount' };
+      const remaining = g.target - g.saved;
+      if (amt > remaining) return { ok: false, msg: `Only ${fmt(remaining)} remaining for this goal` };
+      if (balance < amt) return { ok: false, msg: 'Insufficient balance' };
+      balance -= amt;
+      g.saved += amt;
+      if (g.saved >= g.target) {
+        goals.splice(goals.indexOf(g), 1);
+        return { ok: true, complete: true, msg: `🎉 Goal "${goalName}" complete!` };
+      }
+      return { ok: true, msg: `Added ${fmt(amt)} to "${goalName}"` };
     }
-  }
 
-  function handleWithdraw() {
-    const amt = parseFloat(document.getElementById('withdraw-amt').value);
-    const res = withdraw(amt);
-    if (res.ok) {
-      addHistory('Withdrawal', -amt, 'neg');
-      document.getElementById('withdraw-amt').value = '';
-      renderBalance();
-      showToast(res.msg, 'success');
-    } else {
-      showToast(res.msg, 'error');
+    // ── Calendar helpers ─────────────────────────────────────────────────────
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function todayKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
-  }
 
-  function handleCreateGoal() {
-    const name   = document.getElementById('goal-name').value;
-    const target = parseFloat(document.getElementById('goal-amt').value);
-    const res    = createGoal(name, target);
-    if (res.ok) {
-      document.getElementById('goal-name').value = '';
-      document.getElementById('goal-amt').value  = '';
+    function renderCalendar() {
+      const title = document.getElementById('cal-title');
+      const grid = document.getElementById('cal-grid');
+      const today = todayKey();
+      const [ty, tm, td] = today.split('-').map(Number);
+
+      title.textContent = `${MONTHS[calMonth]} ${calYear}`;
+
+      // Find max spending in this month for heat-map scaling
+      let maxSpend = 0;
+      const prefix = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-`;
+      for (const [k, v] of Object.entries(dailySpending)) {
+        if (k.startsWith(prefix)) maxSpend = Math.max(maxSpend, v);
+      }
+
+      // Days in month and starting weekday
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      const startWeekday = new Date(calYear, calMonth, 1).getDay();       // 0=Sun
+      const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+      let html = '';
+
+      // Padding days from previous month
+      for (let i = startWeekday - 1; i >= 0; i--) {
+        html += `<div class="cal-day other-month"><span class="day-num">${daysInPrev - i}</span></div>`;
+      }
+
+      // Days of this month
+      for (let d = 1; d <= daysInMonth; d++) {
+        const key = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const spend = dailySpending[key] || 0;
+        const isToday = (calYear === ty && calMonth === tm - 1 && d === td);
+
+        let heatClass = '';
+        if (spend > 0 && maxSpend > 0) {
+          const ratio = spend / maxSpend;
+          heatClass = ratio < 0.34 ? 'spend-low' : ratio < 0.67 ? 'spend-mid' : 'spend-high';
+        }
+
+        html += `
+        <div class="cal-day ${isToday ? 'today' : ''} ${heatClass}" title="${key}${spend ? '  ₹' + spend.toFixed(2) : ''}">
+          <span class="day-num">${d}</span>
+          ${spend > 0 ? `<span class="day-spend">${fmt(spend)}</span>` : ''}
+        </div>`;
+      }
+
+      // Padding days from next month
+      const totalCells = startWeekday + daysInMonth;
+      const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+      for (let d = 1; d <= remaining; d++) {
+        html += `<div class="cal-day other-month"><span class="day-num">${d}</span></div>`;
+      }
+
+      grid.innerHTML = html;
+
+      // Update today summary strip
+      document.getElementById('cal-today-spend').textContent = fmt(dailySpending[today] || 0);
+      document.getElementById('cal-today-balance').textContent = fmt(balance);
+    }
+
+    function calPrev() {
+      calMonth--;
+      if (calMonth < 0) { calMonth = 11; calYear--; }
+      renderCalendar();
+    }
+
+    function calNext() {
+      calMonth++;
+      if (calMonth > 11) { calMonth = 0; calYear++; }
+      renderCalendar();
+    }
+
+    // ── Handlers ─────────────────────────────────────────────────────────────
+    function handleDeposit() {
+      const amt = parseFloat(document.getElementById('deposit-amt').value);
+      const res = deposit(amt);
+      if (res.ok) {
+        addHistory('Deposit', amt, 'pos');
+        document.getElementById('deposit-amt').value = '';
+        renderBalance();
+        showToast(res.msg, 'success');
+      } else {
+        showToast(res.msg, 'error');
+      }
+    }
+
+    function handleWithdraw() {
+      const amt = parseFloat(document.getElementById('withdraw-amt').value);
+      const reason = document.getElementById('withdraw-reason').value;
+      const res = withdraw(amt, reason);
+      if (res.ok) {
+        addHistory(`Withdrawal — ${reason.trim()}`, -amt, 'neg');
+        document.getElementById('withdraw-amt').value = '';
+        document.getElementById('withdraw-reason').value = '';
+        renderBalance();
+        showToast(res.msg, 'success');
+      } else {
+        showToast(res.msg, 'error');
+      }
+    }
+
+    function handleSetBudget() {
+      const limit = parseFloat(document.getElementById('budget-limit-input').value);
+      if (!limit || limit <= 0) { showToast('Enter a valid limit amount', 'error'); return; }
+      monthlyLimit = limit;
+      spentThisMonth = 0;
+      budgetMonth = new Date().getMonth();
+      document.getElementById('budget-limit-input').value = '';
+      renderBudget();
+      showToast(`Monthly limit set to ${fmt(limit)}`, 'success');
+    }
+
+    function handleClearBudget() {
+      monthlyLimit = null;
+      spentThisMonth = 0;
+      document.getElementById('budget-limit-input').value = '';
+      renderBudget();
+      showToast('Monthly budget cleared', 'info');
+    }
+
+    function handleCreateGoal() {
+      const name = document.getElementById('goal-name').value;
+      const target = parseFloat(document.getElementById('goal-amt').value);
+      const res = createGoal(name, target);
+      if (res.ok) {
+        document.getElementById('goal-name').value = '';
+        document.getElementById('goal-amt').value = '';
+        renderGoals();
+        showToast(res.msg, 'info');
+      } else {
+        showToast(res.msg, 'error');
+      }
+    }
+
+    function handleAddToGoal(goalName) {
+      const inputId = 'add-' + CSS.escape(goalName);
+      const amt = parseFloat(document.getElementById(inputId).value);
+      const res = addToGoal(goalName, amt);
+      if (res.ok) {
+        document.getElementById(inputId).value = '';
+        renderBalance();
+        renderGoals();
+        addHistory(`→ ${goalName}`, -amt, 'goal');
+        showToast(res.msg, res.complete ? 'success' : 'info');
+      } else {
+        showToast(res.msg, 'error');
+      }
+    }
+
+    function handleDeleteGoal(goalName) {
+      const idx = goals.findIndex(g => g.name === goalName);
+      if (idx !== -1) goals.splice(idx, 1);
       renderGoals();
-      showToast(res.msg, 'info');
-    } else {
-      showToast(res.msg, 'error');
+      showToast(`Goal "${goalName}" removed`, 'info');
     }
-  }
 
-  function handleAddToGoal(goalName) {
-    const inputId = 'add-' + CSS.escape(goalName);
-    const amt = parseFloat(document.getElementById(inputId).value);
-    const res = addToGoal(goalName, amt);
-    if (res.ok) {
-      document.getElementById(inputId).value = '';
-      renderBalance();
-      renderGoals();
-      addHistory(`→ ${goalName}`, -amt, 'goal');
-      showToast(res.msg, res.complete ? 'success' : 'info');
-    } else {
-      showToast(res.msg, 'error');
-    }
-  }
-
-  function handleDeleteGoal(goalName) {
-    const idx = goals.findIndex(g => g.name === goalName);
-    if (idx !== -1) goals.splice(idx, 1);
-    renderGoals();
-    showToast(`Goal "${goalName}" removed`, 'info');
-  }
-
-  // ── Render Goals ─────────────────────────────────────────────────────────
-  function renderGoals() {
-    const list = document.getElementById('goals-list');
-    const emptyMsg = document.getElementById('empty-msg');
-    if (goals.length === 0) {
-      list.innerHTML = '<div class="empty-state" id="empty-msg">No savings goals yet. Create one above! 🚀</div>';
-      return;
-    }
-    list.innerHTML = goals.map(g => {
-      const pct = Math.min(100, (g.saved / g.target) * 100).toFixed(1);
-      const safeId = g.name.replace(/[^a-zA-Z0-9]/g, '_');
-      return `
+    // ── Render Goals ─────────────────────────────────────────────────────────
+    function renderGoals() {
+      const list = document.getElementById('goals-list');
+      const emptyMsg = document.getElementById('empty-msg');
+      if (goals.length === 0) {
+        list.innerHTML = '<div class="empty-state" id="empty-msg">No savings goals yet. Create one above! 🚀</div>';
+        return;
+      }
+      list.innerHTML = goals.map(g => {
+        const pct = Math.min(100, (g.saved / g.target) * 100).toFixed(1);
+        const safeId = g.name.replace(/[^a-zA-Z0-9]/g, '_');
+        return `
         <div class="goal-item">
           <div class="goal-top">
             <div>
@@ -441,40 +1244,55 @@
             <button class="btn btn-accent btn-sm" onclick="handleAddToGoal('${g.name}')">Add</button>
           </div>
         </div>`;
-    }).join('');
-  }
-
-  // ── History ──────────────────────────────────────────────────────────────
-  function addHistory(desc, amt, cls) {
-    history.unshift({ desc, amt, cls, time: now() });
-    renderHistory();
-  }
-
-  function renderHistory() {
-    const list = document.getElementById('history-list');
-    if (history.length === 0) {
-      list.innerHTML = '<div class="empty-state">No transactions yet.</div>';
-      return;
+      }).join('');
     }
-    list.innerHTML = history.map(h => `
+
+    // ── History ──────────────────────────────────────────────────────────────
+    const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function fmtDate() {
+      const d = new Date();
+      return `${String(d.getDate()).padStart(2,'0')} ${MONTH_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function addHistory(desc, amt, cls) {
+      history.unshift({ desc, amt, cls, date: fmtDate(), time: now() });
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('history-list');
+      if (history.length === 0) {
+        list.innerHTML = '<div class="empty-state">No transactions yet.</div>';
+        return;
+      }
+      list.innerHTML = history.map(h => `
       <div class="hist-item">
         <span class="hist-desc">${h.desc}</span>
-        <span>
+        <span class="hist-meta">
           <span class="hist-amt ${h.cls}">${h.amt > 0 ? '+' : ''}${fmt(h.amt)}</span>
+          <span class="hist-date">${h.date}</span>
           <span class="hist-time">${h.time}</span>
         </span>
       </div>`).join('');
-  }
+    }
 
-  // ── Enter key shortcuts ──────────────────────────────────────────────────
-  document.getElementById('deposit-amt').addEventListener('keydown',  e => e.key==='Enter' && handleDeposit());
-  document.getElementById('withdraw-amt').addEventListener('keydown', e => e.key==='Enter' && handleWithdraw());
-  document.getElementById('goal-amt').addEventListener('keydown',     e => e.key==='Enter' && handleCreateGoal());
+    // ── Enter key shortcuts ──────────────────────────────────────────────────
+    document.getElementById('deposit-amt').addEventListener('keydown', e => e.key === 'Enter' && handleDeposit());
+    document.getElementById('withdraw-amt').addEventListener('keydown', e => e.key === 'Enter' && handleWithdraw());
+    document.getElementById('withdraw-reason').addEventListener('keydown', e => e.key === 'Enter' && handleWithdraw());
+    document.getElementById('goal-amt').addEventListener('keydown', e => e.key === 'Enter' && handleCreateGoal());
+    document.getElementById('budget-limit-input').addEventListener('keydown', e => e.key === 'Enter' && handleSetBudget());
 
-  // ── Init ─────────────────────────────────────────────────────────────────
-  renderBalance();
-  renderGoals();
-  renderHistory();
-</script>
+    // ── Enter key on auth inputs ─────────────────────────────────────────────
+    ['auth-username','auth-password','auth-balance'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', e => e.key === 'Enter' && handleAuth());
+    });
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    // App renders after login; nothing to init here.
+  </script>
 </body>
+
 </html>
