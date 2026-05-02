@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinTrack – Personal Finance Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0d14;
+      --surface: #11151f;
+      --card: #161b2a;
+      --border: #1f2740;
+      --accent: #6c63ff;
+      --accent2: #00d4aa;
+      --danger: #ff5f7e;
+      --text: #e8ecf4;
+      --muted: #6b7a99;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6c63ff, #00d4aa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p { color: var(--muted); font-size: .95rem; margin-top: 6px; }
+
+    /* ── Layout ── */
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ── Balance Card ── */
+    .balance-card {
+      background: linear-gradient(135deg, #1a1042 0%, #0d2a3a 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      text-align: center;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .balance-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(108,99,255,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .balance-label { font-size: .85rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+    .balance-amount {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 8px 0 4px;
+      transition: transform .3s;
+    }
+    .balance-amount.pulse { animation: pulse .4s ease; }
+    @keyframes pulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    /* ── Action Cards ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+    @media(max-width:600px){ .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h2 .icon { font-size: 1.2rem; }
+
+    /* ── Inputs ── */
+    .input-group { display: flex; flex-direction: column; gap: 10px; }
+    input[type="number"], input[type="text"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: .95rem;
+      padding: 12px 14px;
+      width: 100%;
+      transition: border-color .2s;
+      outline: none;
+    }
+    input:focus { border-color: var(--accent); }
+
+    /* ── Buttons ── */
+    .btn {
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .9rem;
+      font-weight: 600;
+      padding: 12px 18px;
+      transition: opacity .2s, transform .15s;
+      width: 100%;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-deposit  { background: linear-gradient(135deg, #00d4aa, #00a88a); color: #000; }
+    .btn-withdraw { background: linear-gradient(135deg, #ff5f7e, #d43a5a); color: #fff; }
+    .btn-accent   { background: linear-gradient(135deg, #6c63ff, #4f46e5); color: #fff; }
+    .btn-sm       { padding: 9px 14px; font-size: .82rem; width: auto; }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      opacity: 0;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #toast.success { border-color: var(--accent2); color: var(--accent2); }
+    #toast.error   { border-color: var(--danger);  color: var(--danger); }
+    #toast.info    { border-color: var(--accent);  color: var(--accent); }
+
+    /* ── Goals Section ── */
+    .goals-card { margin-bottom: 28px; }
+    .goals-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+    .goals-header h2 { font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+    .new-goal-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+    .new-goal-row input { flex: 1; min-width: 120px; }
+
+    /* ── Goal Items ── */
+    #goals-list { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+    .goal-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      transition: border-color .2s;
+    }
+    .goal-item:hover { border-color: var(--accent); }
+    .goal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .goal-name { font-weight: 600; font-size: .95rem; }
+    .goal-amounts { font-size: .82rem; color: var(--muted); }
+    .goal-amounts span { color: var(--accent2); font-weight: 600; }
+
+    .progress-bar {
+      background: var(--border);
+      border-radius: 99px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #6c63ff, #00d4aa);
+      height: 100%;
+      border-radius: 99px;
+      transition: width .5s ease;
+    }
+
+    .goal-add-row { display: flex; gap: 8px; align-items: center; }
+    .goal-add-row input { flex: 1; }
+
+    .empty-state { text-align: center; color: var(--muted); padding: 32px 0; font-size: .9rem; }
+
+    /* ── History ── */
+    .history-card {}
+    #history-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; margin-top: 16px; }
+    #history-list::-webkit-scrollbar { width: 6px; }
+    #history-list::-webkit-scrollbar-track { background: transparent; }
+    #history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    .hist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--surface);
+      border-radius: 10px;
+      font-size: .88rem;
+      animation: fadeIn .3s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+    .hist-desc { color: var(--muted); }
+    .hist-amt.pos { color: var(--accent2); font-weight: 600; }
+    .hist-amt.neg { color: var(--danger); font-weight: 600; }
+    .hist-amt.goal { color: var(--accent); font-weight: 600; }
+    .hist-time { color: var(--muted); font-size: .75rem; white-space: nowrap; margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>💰 FinTrack</h1>
+    <p>Personal Finance Tracker – manage balance &amp; savings goals</p>
+  </header>
+
+  <!-- Balance -->
+  <div class="balance-card">
+    <div class="balance-label">Current Balance</div>
+    <div class="balance-amount" id="balance-display">₹0.00</div>
+  </div>
+
+  <!-- Deposit / Withdraw -->
+  <div class="grid-2">
+    <div class="card">
+      <h2><span class="icon">⬆️</span> Deposit</h2>
+      <div class="input-group">
+        <input type="number" id="deposit-amt" placeholder="Enter amount" min="1"/>
+        <button class="btn btn-deposit" id="btn-deposit" onclick="handleDeposit()">Deposit</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2><span class="icon">⬇️</span> Withdraw</h2>
+      <div class="input-group">
+        <input type="number" id="withdraw-amt" placeholder="Enter amount" min="1"/>
+        <button class="btn btn-withdraw" id="btn-withdraw" onclick="handleWithdraw()">Withdraw</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goals -->
+  <div class="card goals-card">
+    <div class="goals-header">
+      <h2><span class="icon">🎯</span> Savings Goals</h2>
+    </div>
+    <div class="new-goal-row">
+      <input type="text"   id="goal-name" placeholder="Goal name (e.g. Vacation)"/>
+      <input type="number" id="goal-amt"  placeholder="Target amount" min="1"/>
+      <button class="btn btn-accent btn-sm" onclick="handleCreateGoal()">+ Add Goal</button>
+    </div>
+    <div id="goals-list">
+      <div class="empty-state" id="empty-msg">No savings goals yet. Create one above! 🚀</div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="card history-card">
+    <h2><span class="icon">📋</span> Transaction History</h2>
+    <div id="history-list">
+      <div class="empty-state">No transactions yet.</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ── State (mirrors track.py account class) ──────────────────────────────
+  let balance = 0;
+  const goals = [];     // [{ name, target, saved }]
+  const history = [];
+
+  // ── Helpers ─────────────────────────────────────────────────────────────
+  const fmt = n => '₹' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const now  = () => new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+  function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'show ' + type;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.className = ''; }, 3000);
+  }
+
+  function renderBalance() {
+    const el = document.getElementById('balance-display');
+    el.textContent = fmt(balance);
+    el.classList.remove('pulse');
+    void el.offsetWidth;
+    el.classList.add('pulse');
+  }
+
+  // ── Account Logic (ported from track.py) ────────────────────────────────
+  function deposit(amt) {
+    if (amt > 0) {
+      balance += amt;
+      return { ok: true, msg: 'Deposit successful' };
+    }
+    return { ok: false, msg: 'Invalid amount' };
+  }
+
+  function withdraw(amt) {
+    if (amt <= balance && amt > 0) {
+      balance -= amt;
+      return { ok: true, msg: 'Withdraw successful' };
+    }
+    return { ok: false, msg: amt <= 0 ? 'Invalid amount' : 'Insufficient balance' };
+  }
+
+  function createGoal(name, target) {
+    if (!name.trim()) return { ok: false, msg: 'Goal name cannot be empty' };
+    if (target <= 0)   return { ok: false, msg: 'Target amount must be positive' };
+    if (goals.find(g => g.name === name)) return { ok: false, msg: 'Goal already exists' };
+    goals.push({ name: name.trim(), target, saved: 0 });
+    return { ok: true, msg: `Goal "${name}" created!` };
+  }
+
+  function addToGoal(goalName, amt) {
+    const g = goals.find(g => g.name === goalName);
+    if (!g) return { ok: false, msg: 'Goal not found' };
+    if (amt <= 0) return { ok: false, msg: 'Invalid amount' };
+    const remaining = g.target - g.saved;
+    if (amt > remaining) return { ok: false, msg: `Only ${fmt(remaining)} remaining for this goal` };
+    if (balance < amt) return { ok: false, msg: 'Insufficient balance' };
+    balance -= amt;
+    g.saved += amt;
+    if (g.saved >= g.target) {
+      goals.splice(goals.indexOf(g), 1);
+      return { ok: true, complete: true, msg: `🎉 Goal "${goalName}" complete!` };
+    }
+    return { ok: true, msg: `Added ${fmt(amt)} to "${goalName}"` };
+  }
+
+  // ── Handlers ─────────────────────────────────────────────────────────────
+  function handleDeposit() {
+    const amt = parseFloat(document.getElementById('deposit-amt').value);
+    const res = deposit(amt);
+    if (res.ok) {
+      addHistory('Deposit', amt, 'pos');
+      document.getElementById('deposit-amt').value = '';
+      renderBalance();
+      showToast(res.msg, 'success');
+    } else {
+      showToast(res.msg, 'error');
+    }
+  }
+
+  function handleWithdraw() {
+    const amt = parseFloat(document.getElementById('withdraw-amt').value);
+    const res = withdraw(amt);
+    if (res.ok) {
+      addHistory('Withdrawal', -amt, 'neg');
+      document.getElementById('withdraw-amt').value = '';
+      renderBalance();
+      showToast(res.msg, 'success');
+    } else {
+      showToast(res.msg, 'error');
+    }
+  }
+
+  function handleCreateGoal() {
+    const name   = document.getElementById('goal-name').value;
+    const target = parseFloat(document.getElementById('goal-amt').value);
+    const res    = createGoal(name, target);
+    if (res.ok) {
+      document.getElementById('goal-name').value = '';
+      document.getElementById('goal-amt').value  = '';
+      renderGoals();
+      showToast(res.msg, 'info');
+    } else {
+      showToast(res.msg, 'error');
+    }
+  }
+
+  function handleAddToGoal(goalName) {
+    const inputId = 'add-' + CSS.escape(goalName);
+    const amt = parseFloat(document.getElementById(inputId).value);
+    const res = addToGoal(goalName, amt);
+    if (res.ok) {
+      document.getElementById(inputId).value = '';
+      renderBalance();
+      renderGoals();
+      addHistory(`→ ${goalName}`, -amt, 'goal');
+      showToast(res.msg, res.complete ? 'success' : 'info');
+    } else {
+      showToast(res.msg, 'error');
+    }
+  }
+
+  function handleDeleteGoal(goalName) {
+    const idx = goals.findIndex(g => g.name === goalName);
+    if (idx !== -1) goals.splice(idx, 1);
+    renderGoals();
+    showToast(`Goal "${goalName}" removed`, 'info');
+  }
+
+  // ── Render Goals ─────────────────────────────────────────────────────────
+  function renderGoals() {
+    const list = document.getElementById('goals-list');
+    const emptyMsg = document.getElementById('empty-msg');
+    if (goals.length === 0) {
+      list.innerHTML = '<div class="empty-state" id="empty-msg">No savings goals yet. Create one above! 🚀</div>';
+      return;
+    }
+    list.innerHTML = goals.map(g => {
+      const pct = Math.min(100, (g.saved / g.target) * 100).toFixed(1);
+      const safeId = g.name.replace(/[^a-zA-Z0-9]/g, '_');
+      return `
+        <div class="goal-item">
+          <div class="goal-top">
+            <div>
+              <div class="goal-name">🎯 ${g.name}</div>
+              <div class="goal-amounts"><span>${fmt(g.saved)}</span> / ${fmt(g.target)} &nbsp;(${pct}%)</div>
+            </div>
+            <button class="btn btn-sm" style="background:#1f2740;color:var(--muted);width:auto;padding:6px 10px;"
+              onclick="handleDeleteGoal('${g.name}')">✕</button>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="goal-add-row">
+            <input type="number" id="add-${safeId}" placeholder="Add amount" min="1"/>
+            <button class="btn btn-accent btn-sm" onclick="handleAddToGoal('${g.name}')">Add</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── History ──────────────────────────────────────────────────────────────
+  function addHistory(desc, amt, cls) {
+    history.unshift({ desc, amt, cls, time: now() });
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('history-list');
+    if (history.length === 0) {
+      list.innerHTML = '<div class="empty-state">No transactions yet.</div>';
+      return;
+    }
+    list.innerHTML = history.map(h => `
+      <div class="hist-item">
+        <span class="hist-desc">${h.desc}</span>
+        <span>
+          <span class="hist-amt ${h.cls}">${h.amt > 0 ? '+' : ''}${fmt(h.amt)}</span>
+          <span class="hist-time">${h.time}</span>
+        </span>
+      </div>`).join('');
+  }
+
+  // ── Enter key shortcuts ──────────────────────────────────────────────────
+  document.getElementById('deposit-amt').addEventListener('keydown',  e => e.key==='Enter' && handleDeposit());
+  document.getElementById('withdraw-amt').addEventListener('keydown', e => e.key==='Enter' && handleWithdraw());
+  document.getElementById('goal-amt').addEventListener('keydown',     e => e.key==='Enter' && handleCreateGoal());
+
+  // ── Init ─────────────────────────────────────────────────────────────────
+  renderBalance();
+  renderGoals();
+  renderHistory();
+</script>
+</body>
+</html>
